@@ -3,6 +3,7 @@ package com.parking.dto;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.parking.model.ParkingTicket;
 import com.parking.model.ParkingTicketPaymentStatusEnum;
@@ -27,8 +28,8 @@ public class ParkingTicketDto {
     private AgentDto agent;
     private CompanyDto company;
     private VehicleDto vehicle;
-    private LocalDate entryTime;
-    private LocalDate exitTime;
+    private LocalDateTime entryTime;
+    private LocalDateTime exitTime;
     private BigDecimal unitPrice;
     private BigDecimal fareAmount;
     private double duration;

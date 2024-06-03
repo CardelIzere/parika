@@ -28,7 +28,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Page<Vehicle> findByVehiculeRegistrationNumberLike(String search, Pageable pageable);
     
     @Query("SELECT v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
-    		"SUM(CASE WHEN t.transactionType = 'DEPOSIT' THEN t.transactionAmount ELSE -t.transactionAmount END) AS solde, va.qrCodeImage AS qrCodeImage " +
+    		"COALESCE(SUM(t.transactionAmount), 0) AS solde, va.qrCodeImage AS qrCodeImage " +
     		"FROM Vehicle v " +
     		"JOIN v.vehicleType vt " +
     		"JOIN v.account va " +
@@ -38,7 +38,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Page<VehicleProjection> findVehicleDetailsWithSearch(String search, Pageable pageable);
     
     @Query("SELECT v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
-    		"SUM(CASE WHEN t.transactionType = 'DEPOSIT' THEN t.transactionAmount ELSE -t.transactionAmount END) AS solde, va.qrCodeImage AS qrCodeImage " +
+    		"COALESCE(SUM(t.transactionAmount), 0) AS solde, va.qrCodeImage AS qrCodeImage " +
     		"FROM Vehicle v " +
     		"JOIN v.vehicleType vt " +
     		"JOIN v.account va " +

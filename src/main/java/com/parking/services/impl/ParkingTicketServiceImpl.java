@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -48,8 +49,8 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         }
 
         if(!isVehiculeRegistered(dto.getVehicle().getRegistrationNumber())) {
-            log.error("Le vehicule n'est enregistré.", dto.getVehicle().getRegistrationNumber());
-            throw new InvalidEntityException("Le vehicule n'est enregistré.");
+            log.error("Le vehicule n'est pas enregistré.", dto.getVehicle().getRegistrationNumber());
+            throw new InvalidEntityException("Le vehicule n'est pas enregistré.");
         }
 
         if(isVehiculeHasDebt(dto.getVehicle().getRegistrationNumber())) {
@@ -58,7 +59,7 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         }
 
         dto.setParkingTicketNumber(ticketNumberPrefix()+generateAccountNumber(8));
-        dto.setEntryTime(LocalDate.now());
+        dto.setEntryTime(LocalDateTime.now());
         dto.setParkingTicketStatusEnum(ParkingTicketStatusEnum.ACTIVE);
         dto.setParkingTicketPaymentStatusEnum(ParkingTicketPaymentStatusEnum.UNPAID);
 
@@ -106,8 +107,8 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         if (existingParkingTicket.isPresent()) {
 
             ParkingTicket existingData = existingParkingTicket.get();
-            LocalDate exitTime=LocalDate.now();
-            LocalDate entryTime=existingData.getEntryTime();
+            LocalDateTime exitTime=LocalDateTime.now();
+            LocalDateTime entryTime=existingData.getEntryTime();
 
             Duration duration = Duration.between(entryTime, exitTime);
             long seconds = duration.getSeconds();

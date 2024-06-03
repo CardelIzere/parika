@@ -3,6 +3,7 @@ package com.parking.model;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,12 +37,10 @@ public class ParkingTicket extends AbstractEntity {
     private Vehicle vehicle;
 
     @Column(name = "entry_time")
-    @Temporal(TemporalType.DATE)
-    private LocalDate entryTime;
+    private LocalDateTime entryTime;
 
     @Column(name = "exit_time",nullable = true)
-    @Temporal(TemporalType.DATE)
-    private LocalDate exitTime;
+    private LocalDateTime exitTime;
 
     @Column(name = "unit_price")
     private BigDecimal unitPrice;
