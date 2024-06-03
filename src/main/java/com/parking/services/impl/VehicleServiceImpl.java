@@ -2,9 +2,11 @@ package com.parking.services.impl;
 
 import com.parking.dto.VehiculeAccountDto;
 import com.parking.dto.VehicleDto;
+import com.parking.dto.VehicleListDto;
 import com.parking.exceptions.ErrorCodes;
 import com.parking.exceptions.InvalidEntityException;
 import com.parking.model.Vehicle;
+import com.parking.projection.VehicleProjection;
 import com.parking.repository.VehiculeAccountRepository;
 import com.parking.repository.VehicleRepository;
 import com.parking.services.QRCodeService;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Service
 @Slf4j
@@ -93,7 +96,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .vehicle(dto)
                 .qrCodeImage(qrCodeImage)
                 .qrCodeString(qrCodeText)
-                .openDate(Instant.now())
+                .openDate(LocalDate.now())
                 .build();
     }
 
@@ -140,4 +143,17 @@ public class VehicleServiceImpl implements VehicleService {
     public void delete(Long id) {
 
     }
+
+
+	@Override
+	public Page<VehicleListDto> getVehicleDetails(String search, Pageable pageable) {
+		
+		Page<VehicleProjection> vehicleProjection;
+		if(search != null) {
+			vehicleProjection = vehicleRepository.findVehicleDetailsWithSearch(search, pageable);
+		} else {
+			vehicleProjection = vehicleRepository.findVehicleDetails(pageable);
+		}
+		return vehicleProjection.map(VehicleListDto::fromEntity);
+	}
 }

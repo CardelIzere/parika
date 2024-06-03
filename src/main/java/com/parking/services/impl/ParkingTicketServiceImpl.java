@@ -58,7 +58,7 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         }
 
         dto.setParkingTicketNumber(ticketNumberPrefix()+generateAccountNumber(8));
-        dto.setEntryTime(Instant.now());
+        dto.setEntryTime(LocalDate.now());
         dto.setParkingTicketStatusEnum(ParkingTicketStatusEnum.ACTIVE);
         dto.setParkingTicketPaymentStatusEnum(ParkingTicketPaymentStatusEnum.UNPAID);
 
@@ -106,8 +106,8 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         if (existingParkingTicket.isPresent()) {
 
             ParkingTicket existingData = existingParkingTicket.get();
-            Instant exitTime=Instant.now();
-            Instant entryTime=existingData.getEntryTime();
+            LocalDate exitTime=LocalDate.now();
+            LocalDate entryTime=existingData.getEntryTime();
 
             Duration duration = Duration.between(entryTime, exitTime);
             long seconds = duration.getSeconds();

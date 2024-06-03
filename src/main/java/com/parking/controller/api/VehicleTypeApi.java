@@ -49,6 +49,13 @@ public interface VehicleTypeApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/vehicle_types/company/{idCompany}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<VehicleTypeDto> findAvailableVehiculeTypeGivenCompany(@PathVariable("idCompany") Long idCompany);
+    
+    @Operation(summary = "Récupérer la liste de tous les types vehicules", description = "Cette methode permet de chercher et renvoyer la liste des types de vehicules qui existent" + "dans la BDD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "La liste des types vehicules / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/vehicle_types/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<VehicleTypeDto> findAll();
 
     @Operation(summary = "Supprimer un type vehicule par son ID", description = "Cette methode permet de supprimer un type vehicule par ID")
     @ApiResponses(value = {

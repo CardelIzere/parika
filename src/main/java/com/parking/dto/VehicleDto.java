@@ -1,6 +1,7 @@
 package com.parking.dto;
 
 import java.sql.Blob;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.parking.model.Vehicle;
@@ -20,6 +21,7 @@ public class VehicleDto {
 
     private Long id;
     private String registrationNumber;
+    private LocalDate creationDate;
     private VehicleTypeDto vehicleType;
 
     public static VehicleDto fromEntity(Vehicle vehicle) {
@@ -30,6 +32,7 @@ public class VehicleDto {
         return VehicleDto.builder()
                 .id(vehicle.getId())
                 .registrationNumber(vehicle.getRegistrationNumber())
+                .creationDate(vehicle.getCreationDate())
                 .vehicleType(VehicleTypeDto.fromEntity(vehicle.getVehicleType()))
                 .build();
     }
@@ -42,6 +45,7 @@ public class VehicleDto {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(vehicleDto.getId());
         vehicle.setRegistrationNumber(vehicleDto.getRegistrationNumber());
+        vehicle.setCreationDate(vehicleDto.getCreationDate());
         vehicle.setVehicleType(VehicleTypeDto.toEntity(vehicleDto.getVehicleType()));
         return vehicle;
     }

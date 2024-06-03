@@ -74,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         dto.getTransaction().setTransactionCode(transactionCodePrefix()+generateTransactionCode(10));
-        dto.getTransaction().setTransactionDate(Instant.now());
+        dto.getTransaction().setTransactionDate(LocalDate.now());
         dto.getTransaction().setTransactionType(TransactionTypeEnum.PAYMENT);
         dto.getTransaction().setTransactionAmount(
                 BigDecimal.valueOf(
@@ -106,7 +106,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         dto.getTransaction().setTransactionCode(transactionCodePrefix()+generateTransactionCode(10));
-        dto.getTransaction().setTransactionDate(Instant.now());
+        dto.getTransaction().setTransactionDate(LocalDate.now());
         dto.getTransaction().setTransactionType(TransactionTypeEnum.DEPOSIT);
         dto.getTransaction().setTransactionAmount(
                 BigDecimal.valueOf(

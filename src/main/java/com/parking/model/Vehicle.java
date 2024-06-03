@@ -1,5 +1,7 @@
 package com.parking.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +16,10 @@ public class Vehicle extends AbstractEntity {
 
     @Column(name = "registration_number")
     private String registrationNumber;
+    
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private LocalDate creationDate;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_type_id")

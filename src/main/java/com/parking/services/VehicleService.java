@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.parking.dto.VehicleDto;
+import com.parking.dto.VehicleListDto;
 
 public interface VehicleService {
 
@@ -12,6 +13,8 @@ public interface VehicleService {
     VehicleDto findById(Long id);
 
     Page<VehicleDto> findByVehicleRegistrationNumber(String search, Pageable pageable);
+    
+    Page<VehicleListDto> getVehicleDetails(String search, Pageable pageable);
 
     void delete(Long id);
 }

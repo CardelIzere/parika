@@ -52,5 +52,11 @@ public class VehicleTypeController implements VehicleTypeApi {
 		vehicleTypeService.delete(id);
 		
 	}
+
+	@Override
+	public List<VehicleTypeDto> findAll() {
+		
+		return vehicleTypeService.findAll();
+	}
 	
 }

@@ -17,5 +17,7 @@ public interface VehicleTypeService {
 
 	List<VehicleTypeDto> findAvailableVehiculeTypeGivenCompany(Long idCompany);
 	
+	List<VehicleTypeDto> findAll();
+	
 	void delete(Long id);
 }

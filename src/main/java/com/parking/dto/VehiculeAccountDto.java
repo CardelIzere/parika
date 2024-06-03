@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -16,7 +17,7 @@ public class VehiculeAccountDto {
     private VehicleDto vehicle;
     private byte[] qrCodeImage;
     private String qrCodeString;
-    private Instant openDate;
+    private LocalDate openDate;
 
     public static VehiculeAccountDto fromEntity(VehiculeAccount account) {
         if(account == null) {

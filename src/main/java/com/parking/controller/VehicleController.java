@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.controller.api.VehicleApi;
 import com.parking.dto.VehicleDto;
+import com.parking.dto.VehicleListDto;
 import com.parking.services.VehicleService;
 
 @RestController
@@ -43,5 +44,11 @@ public class VehicleController implements VehicleApi {
         vehicleService.delete(id);
 
     }
+
+	@Override
+	public Page<VehicleListDto> getVehicleDetails(String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return vehicleService.getVehicleDetails(search, pageable);
+	}
 
 }

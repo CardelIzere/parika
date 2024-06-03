@@ -131,4 +131,12 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
 		
 	}
 
+	@Override
+	public List<VehicleTypeDto> findAll() {
+		
+		return vehicleTypeRepository.findAll().stream()
+				.map(VehicleTypeDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
 }

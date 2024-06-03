@@ -2,6 +2,7 @@ package com.parking.model;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -30,7 +31,8 @@ public class Transaction extends AbstractEntity {
     private BigDecimal transactionAmount;
 
     @Column(name = "transactiondate",updatable = false)
-    private Instant transactionDate;
+    @Temporal(TemporalType.DATE)
+    private LocalDate transactionDate;
 
     @OneToMany(mappedBy = "transaction")
     private List<Payment> payments;

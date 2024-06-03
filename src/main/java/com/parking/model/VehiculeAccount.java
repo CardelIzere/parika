@@ -1,6 +1,7 @@
 package com.parking.model;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -23,7 +24,8 @@ public class VehiculeAccount extends AbstractEntity {
     private Vehicle vehicle;
 
     @Column(name = "opendate",updatable = false)
-    private Instant openDate;
+    @Temporal(TemporalType.DATE)
+    private LocalDate openDate;
 
 //    @Lob
 //    @Column(columnDefinition = "LONGBLOB",name = "qrcodeimage",updatable = false)

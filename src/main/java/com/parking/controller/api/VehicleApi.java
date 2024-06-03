@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.parking.dto.VehicleDto;
+import com.parking.dto.VehicleListDto;
 import com.parking.utils.Constants;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +45,17 @@ public interface VehicleApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/vehicles/all", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<VehicleDto> findByVehiculeRegistrationNumber(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    );
+    
+    @Operation(summary = "Récupérer la liste de tous les vehicules", description = "Cette methode permet de chercher et renvoyer la liste des vehicules qui existent" + "dans la BDD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "La liste des vehicules / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/vehicles/all-details", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<VehicleListDto> getVehicleDetails(
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size

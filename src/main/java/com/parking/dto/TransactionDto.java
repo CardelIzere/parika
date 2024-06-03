@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -21,7 +22,7 @@ public class TransactionDto {
     private VehiculeAccountDto account;
     private TransactionTypeEnum transactionType;
     private BigDecimal transactionAmount;
-    private Instant transactionDate;
+    private LocalDate transactionDate;
 
     @JsonIgnore
     private List<Payment> payments;
