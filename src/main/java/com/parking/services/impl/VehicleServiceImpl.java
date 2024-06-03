@@ -146,13 +146,13 @@ public class VehicleServiceImpl implements VehicleService {
 
 
 	@Override
-	public Page<VehicleListDto> getVehicleDetails(String search, Pageable pageable) {
+	public Page<VehicleListDto> getVehicleDetails(Long idVehicle, String search, Pageable pageable) {
 		
 		Page<VehicleProjection> vehicleProjection;
 		if(search != null) {
-			vehicleProjection = vehicleRepository.findVehicleDetailsWithSearch(search, pageable);
+			vehicleProjection = vehicleRepository.findVehicleDetailsWithSearch(idVehicle, search, pageable);
 		} else {
-			vehicleProjection = vehicleRepository.findVehicleDetails(pageable);
+			vehicleProjection = vehicleRepository.findVehicleDetails(idVehicle, pageable);
 		}
 		return vehicleProjection.map(VehicleListDto::fromEntity);
 	}

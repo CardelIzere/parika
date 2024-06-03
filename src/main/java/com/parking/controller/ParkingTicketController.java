@@ -1,5 +1,7 @@
 package com.parking.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,16 +32,23 @@ public class ParkingTicketController implements ParkingTicketApi {
 
     @Override
     public ParkingTicketDto findById(Long id) {
-        return null;
+    	
+        return parkingTicketService.findById(id);
     }
 
-    @Override
-    public Page<ParkingTicketDto> findAllParkingTicket(int page, int size) {
-        return null;
-    }
+//    @Override
+//    public Page<ParkingTicketDto> findAllParkingTicket(int page, int size) {
+//        return null;
+//    }
 
     @Override
     public void delete(Long id) {
 
     }
+
+	@Override
+	public List<ParkingTicketDto> findAll() {
+		
+		return parkingTicketService.findAll();
+	}
 }

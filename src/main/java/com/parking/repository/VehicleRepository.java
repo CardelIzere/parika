@@ -27,23 +27,25 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query(value = "select ve from Vehicle ve join VehicleType vt on ve.vehicleType.id=vt.id where UPPER(ve.registrationNumber) like CONCAT('%',UPPER(?1),'%' ) OR UPPER(vt.vehiculeTypeName) like CONCAT('%',UPPER(?1),'%' ) order by ve.id desc ")
     Page<Vehicle> findByVehiculeRegistrationNumberLike(String search, Pageable pageable);
     
-    @Query("SELECT v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
+    @Query("SELECT v.id AS idVehicle, v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
     		"COALESCE(SUM(t.transactionAmount), 0) AS solde, va.qrCodeImage AS qrCodeImage " +
     		"FROM Vehicle v " +
     		"JOIN v.vehicleType vt " +
     		"JOIN v.account va " +
     		"LEFT JOIN va.transactions t " +
-    		"WHERE UPPER(v.registrationNumber) like CONCAT('%', UPPER(:search),'%') AND UPPER(vt.vehiculeTypeName) like CONCAT('%', UPPER(:search), '%') AND UPPER(va.accountNumber) like CONCAT('%', UPPER(:search), '%') " +
-    		"GROUP BY v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
-    Page<VehicleProjection> findVehicleDetailsWithSearch(String search, Pageable pageable);
+    		"WHERE UPPER(v.registrationNumber) like CONCAT('%', UPPER(:search),'%') OR UPPER(vt.vehiculeTypeName) like CONCAT('%', UPPER(:search), '%') OR UPPER(va.accountNumber) like CONCAT('%', UPPER(:search), '%') " +
+    		"AND v.id = :idVehicle " +
+    		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
+    Page<VehicleProjection> findVehicleDetailsWithSearch(Long idVehicle, String search, Pageable pageable);
     
-    @Query("SELECT v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
+    @Query("SELECT v.id AS idVehicle, v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
     		"COALESCE(SUM(t.transactionAmount), 0) AS solde, va.qrCodeImage AS qrCodeImage " +
     		"FROM Vehicle v " +
     		"JOIN v.vehicleType vt " +
     		"JOIN v.account va " +
     		"LEFT JOIN va.transactions t " +
-    		"GROUP BY v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
-    Page<VehicleProjection> findVehicleDetails(Pageable pageable);
+    		"WHERE v.id = :idVehicle " +
+    		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
+    Page<VehicleProjection> findVehicleDetails(Long idVehicle, Pageable pageable);
     
 }

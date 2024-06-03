@@ -14,6 +14,8 @@ public interface ParkingTicketService {
     ParkingTicketDto exitParking(Long parkingTicketId);
 
     ParkingTicketDto findById(Long id);
+    
+    List<ParkingTicketDto> findAll();
 
     Page<ParkingTicketDto> findAllParkingTicket(Pageable pageable);
 

@@ -54,8 +54,9 @@ public interface VehicleApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "La liste des vehicules / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/vehicles/all-details", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/vehicles/all-details/{idVehicle}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<VehicleListDto> getVehicleDetails(
+    		@PathVariable("idVehicle") Long idVehicle,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size

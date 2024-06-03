@@ -6,6 +6,7 @@ import com.parking.model.VehicleType;
 
 public interface VehicleProjection {
 	
+	Long getIdVehicle();
 	String getRegistrationNumber();
 	VehicleType getVehicleTypeDto();
 	String getAccountNumber();

@@ -40,15 +40,22 @@ public interface ParkingTicketApi {
     @GetMapping(value = Constants.APP_ROOT + "/parking_tickets/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ParkingTicketDto findById(@PathVariable("id") Long id);
 
+//    @Operation(summary = "Récupérer la liste de tous les tickets de parking", description = "Cette methode permet de chercher et renvoyer la liste des tickets de parking qui existent" + "dans la BDD")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "La liste des tickets de parking / Une liste vide")
+//    })
+//    @GetMapping(value = Constants.APP_ROOT + "/parking_tickets/all", produces = MediaType.APPLICATION_JSON_VALUE)
+//    Page<ParkingTicketDto> findAllParkingTicket(
+//            @RequestParam(value = "page", defaultValue = "0") int page,
+//            @RequestParam(value = "size", defaultValue = "10") int size
+//    );
+    
     @Operation(summary = "Récupérer la liste de tous les tickets de parking", description = "Cette methode permet de chercher et renvoyer la liste des tickets de parking qui existent" + "dans la BDD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "La liste des tickets de parking / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/parking_tickets/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    Page<ParkingTicketDto> findAllParkingTicket(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
-    );
+    List<ParkingTicketDto> findAll();
 
     @Operation(summary = "Supprimer un ticket de parking par son ID", description = "Cette methode permet de supprimer un ticket de parking par ID")
     @ApiResponses(value = {

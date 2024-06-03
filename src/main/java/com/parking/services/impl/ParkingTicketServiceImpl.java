@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.time.Duration;
 
 @Service
@@ -134,7 +135,16 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
 
     @Override
     public ParkingTicketDto findById(Long id) {
-        return null;
+    	if(id == null) {
+    		log.error("Parking Ticket ID is null");
+    	}
+    	
+        return parkingTicketRepository.findById(id)
+        		.map(ParkingTicketDto::fromEntity)
+        		.orElseThrow(()-> new EntityNotFoundException(
+        				"Aucun ticket de parking avec l'ID " +id+ " n'a été trouvé dans la BDD", 
+        				ErrorCodes.PARKINGTICKET_NOT_FOUND)
+        		);
     }
 
     @Override
@@ -146,4 +156,12 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
     public void delete(Long id) {
 
     }
+
+	@Override
+	public List<ParkingTicketDto> findAll() {
+		
+		return parkingTicketRepository.findAll().stream()
+				.map(ParkingTicketDto::fromEntity)
+				.collect(Collectors.toList());
+	}
 }

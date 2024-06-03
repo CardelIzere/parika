@@ -46,9 +46,9 @@ public class VehicleController implements VehicleApi {
     }
 
 	@Override
-	public Page<VehicleListDto> getVehicleDetails(String search, int page, int size) {
+	public Page<VehicleListDto> getVehicleDetails(Long idVehicle, String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return vehicleService.getVehicleDetails(search, pageable);
+		return vehicleService.getVehicleDetails(idVehicle, search, pageable);
 	}
 
 }
