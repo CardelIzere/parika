@@ -33,19 +33,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     		"JOIN v.vehicleType vt " +
     		"JOIN v.account va " +
     		"LEFT JOIN va.transactions t " +
-    		"WHERE UPPER(v.registrationNumber) like CONCAT('%', UPPER(:search),'%') OR UPPER(vt.vehiculeTypeName) like CONCAT('%', UPPER(:search), '%') OR UPPER(va.accountNumber) like CONCAT('%', UPPER(:search), '%') " +
-    		"AND v.id = :idVehicle " +
-    		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
-    Page<VehicleProjection> findVehicleDetailsWithSearch(Long idVehicle, String search, Pageable pageable);
-    
-    @Query("SELECT v.id AS idVehicle, v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
-    		"COALESCE(SUM(t.transactionAmount), 0) AS solde, va.qrCodeImage AS qrCodeImage " +
-    		"FROM Vehicle v " +
-    		"JOIN v.vehicleType vt " +
-    		"JOIN v.account va " +
-    		"LEFT JOIN va.transactions t " +
     		"WHERE v.id = :idVehicle " +
     		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
-    Page<VehicleProjection> findVehicleDetails(Long idVehicle, Pageable pageable);
+    VehicleProjection findVehicleDetails(Long idVehicle);
     
 }

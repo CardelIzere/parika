@@ -14,7 +14,7 @@ public interface VehicleService {
 
     Page<VehicleDto> findByVehicleRegistrationNumber(String search, Pageable pageable);
     
-    Page<VehicleListDto> getVehicleDetails(Long idVehicle, String search, Pageable pageable);
+    VehicleListDto getVehicleDetails(Long idVehicle);
 
     void delete(Long id);
 }

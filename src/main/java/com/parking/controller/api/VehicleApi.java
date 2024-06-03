@@ -50,17 +50,12 @@ public interface VehicleApi {
             @RequestParam(value = "size", defaultValue = "10") int size
     );
     
-    @Operation(summary = "Récupérer la liste de tous les vehicules", description = "Cette methode permet de chercher et renvoyer la liste des vehicules qui existent" + "dans la BDD")
+    @Operation(summary = "Récupérer les informations detaillés d'un vehicule", description = "Cette methode permet de chercher et renvoyer la liste des informations detaillés qui existent" + "dans la BDD")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "La liste des vehicules / Une liste vide")
+            @ApiResponse(responseCode = "200", description = "La liste des informations detaillés d'un vehicule / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/vehicles/all-details/{idVehicle}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Page<VehicleListDto> getVehicleDetails(
-    		@PathVariable("idVehicle") Long idVehicle,
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
-    );
+    VehicleListDto getVehicleDetails(@PathVariable("idVehicle") Long idVehicle);
 
     @Operation(summary = "Supprimer un vehicule par son ID", description = "Cette methode permet de supprimer un vehicule par ID")
     @ApiResponses(value = {

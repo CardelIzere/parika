@@ -3,6 +3,7 @@ package com.parking.services.impl;
 import com.parking.dto.VehiculeAccountDto;
 import com.parking.dto.VehicleDto;
 import com.parking.dto.VehicleListDto;
+import com.parking.exceptions.EntityNotFoundException;
 import com.parking.exceptions.ErrorCodes;
 import com.parking.exceptions.InvalidEntityException;
 import com.parking.model.Vehicle;
@@ -19,7 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -146,14 +147,13 @@ public class VehicleServiceImpl implements VehicleService {
 
 
 	@Override
-	public Page<VehicleListDto> getVehicleDetails(Long idVehicle, String search, Pageable pageable) {
+	public VehicleListDto getVehicleDetails(Long idVehicle) {
 		
-		Page<VehicleProjection> vehicleProjection;
-		if(search != null) {
-			vehicleProjection = vehicleRepository.findVehicleDetailsWithSearch(idVehicle, search, pageable);
-		} else {
-			vehicleProjection = vehicleRepository.findVehicleDetails(idVehicle, pageable);
+		VehicleProjection vehicleProjection = vehicleRepository.findVehicleDetails(idVehicle);
+		if(vehicleProjection == null) {
+			throw new EntityNotFoundException("Aucun vehicule avec l' ID = " +idVehicle+ " n'a été trouvé dans la BDD", 
+					ErrorCodes.VEHICLE_NOT_FOUND);
 		}
-		return vehicleProjection.map(VehicleListDto::fromEntity);
+		return VehicleListDto.fromEntity(vehicleProjection);
 	}
 }
