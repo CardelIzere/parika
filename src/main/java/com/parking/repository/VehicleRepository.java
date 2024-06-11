@@ -38,6 +38,16 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
     VehicleProjection findVehicleDetails(Long idVehicle);
     
+    @Query("SELECT v.id AS idVehicle, v.registrationNumber AS registrationNumber, v.vehicleType AS vehicleTypeDto, va.accountNumber AS accountNumber, " +
+    		"COALESCE(SUM(t.transactionAmount), 0) AS solde, va.qrCodeImage AS qrCodeImage " +
+    		"FROM Vehicle v " +
+    		"JOIN v.vehicleType vt " +
+    		"JOIN v.account va " +
+    		"LEFT JOIN va.transactions t " +
+    		"WHERE v.registrationNumber = :registrationNumber " +
+    		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
+    VehicleProjection findVehicleDetailsByRegistrationNumber(String registrationNumber);
+    
     List<Vehicle> findAllByVehicleTypeId(Long vehicleType_id);
     
 }

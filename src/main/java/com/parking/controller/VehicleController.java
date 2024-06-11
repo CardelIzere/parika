@@ -50,4 +50,9 @@ public class VehicleController implements VehicleApi {
 		return vehicleService.getVehicleDetails(idVehicle);
 	}
 
+	@Override
+	public VehicleListDto getVehicleDetailsByRegistrationNumber(String registrationNumber) {
+		return vehicleService.getVehicleDetailsByRegistrationNumber(registrationNumber);
+	}
+
 }

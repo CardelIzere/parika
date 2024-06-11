@@ -56,6 +56,13 @@ public interface VehicleApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/vehicles/all-details/{idVehicle}", produces = MediaType.APPLICATION_JSON_VALUE)
     VehicleListDto getVehicleDetails(@PathVariable("idVehicle") Long idVehicle);
+    
+    @Operation(summary = "Récupérer les informations detaillés d'un vehicule par son numero de plaque", description = "Cette methode permet de chercher et renvoyer la liste des informations detaillés qui existent" + "dans la BDD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "La liste des informations detaillés d'un vehicule / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/vehicles/all-details-by-registrationNumber/{registrationNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    VehicleListDto getVehicleDetailsByRegistrationNumber(@PathVariable("registrationNumber") String registrationNumber);
 
     @Operation(summary = "Supprimer un vehicule par son ID", description = "Cette methode permet de supprimer un vehicule par ID")
     @ApiResponses(value = {
