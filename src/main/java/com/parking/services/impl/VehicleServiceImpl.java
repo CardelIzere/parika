@@ -6,9 +6,12 @@ import com.parking.dto.VehicleListDto;
 import com.parking.exceptions.EntityNotFoundException;
 import com.parking.exceptions.ErrorCodes;
 import com.parking.exceptions.InvalidEntityException;
+import com.parking.model.Transaction;
 import com.parking.model.Vehicle;
+import com.parking.model.VehiculeAccount;
 import com.parking.projection.VehicleProjection;
 import com.parking.repository.VehiculeAccountRepository;
+import com.parking.repository.TransactionRepository;
 import com.parking.repository.VehicleRepository;
 import com.parking.services.QRCodeService;
 import com.parking.services.VehicleService;
@@ -34,12 +37,14 @@ public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     private final VehiculeAccountRepository accountRepository;
     private final QRCodeService qrCodeService;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
-    public VehicleServiceImpl(VehicleRepository vehicleRepository, VehiculeAccountRepository accountRepository, QRCodeService qrCodeService) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository, VehiculeAccountRepository accountRepository, QRCodeService qrCodeService, TransactionRepository transactionRepository) {
         this.vehicleRepository = vehicleRepository;
         this.accountRepository = accountRepository;
         this.qrCodeService = qrCodeService;
+        this.transactionRepository = transactionRepository;
     }
 
 
@@ -57,6 +62,8 @@ public class VehicleServiceImpl implements VehicleService {
                 throw new InvalidEntityException("Un autre vehicule avec le meme numero d'immatriculation existe deja", ErrorCodes.VEHICLE_ALREADY_EXISTS,
                         Collections.singletonList("Un autre vehicule avec le meme numero d'immatriculation existe deja dans la BDD"));
             }
+            
+            dto.setCreationDate(LocalDate.now());
             VehicleDto savedVehicule = VehicleDto.fromEntity(
                     vehicleRepository.save(VehicleDto.toEntity(dto))
             );
@@ -142,7 +149,18 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void delete(Long id) {
-
+    	if(id == null) {
+    		log.error("Vehicle ID is null");
+    	}
+    	VehiculeAccount vehiculeAccounts = accountRepository.findByVehicleId(id);
+    	List<Transaction> transactions = transactionRepository.findByAccountId(vehiculeAccounts);
+    	if(!transactions.isEmpty()) {
+    		throw new InvalidEntityException("Impossible de supprimer le compte du vehicule car elle est déjà utilisé", 
+    				ErrorCodes.ACCOUNT_ALREADY_IN_USE);
+    	}
+    	accountRepository.delete(vehiculeAccounts);
+    	vehicleRepository.deleteById(id);
+    	
     }
 
 

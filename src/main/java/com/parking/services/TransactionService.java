@@ -7,4 +7,5 @@ public interface TransactionService {
 
     PaymentDto savePayment(PaymentDto dto);
     DepositDto saveDeposit(DepositDto dto);
+    void delete(Long id);
 }

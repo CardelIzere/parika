@@ -29,4 +29,6 @@ public interface ParkingPriceRepository extends JpaRepository<ParkingPrice, Long
     Page<ParkingPrice> findByNameLike(Long idCompany,String search, Pageable pageable);
 
     List<ParkingPrice> findAllByVehicleTypeId(Long vehicleType_id);
+    
+    List<ParkingPrice> findAllByCompanyId(Long company_id);
 }

@@ -1,5 +1,6 @@
 package com.parking.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.parking.model.VehicleType;
@@ -36,5 +37,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     		"WHERE v.id = :idVehicle " +
     		"GROUP BY v.id, v.registrationNumber, vt, va.accountNumber, va.qrCodeImage")
     VehicleProjection findVehicleDetails(Long idVehicle);
+    
+    List<Vehicle> findAllByVehicleTypeId(Long vehicleType_id);
     
 }

@@ -27,4 +27,6 @@ public interface AgentRepository extends JpaRepository<Agent, Long> {
 	Page<Agent> findByNameEmailPhoneLike(Long idCompany,String search, Pageable pageable);
 
 	List<Agent> findAllByParkingSpaceId(Long parkingSpace_id);
+	
+	List<Agent> findAllByCompanyId(Long company_id);
 }

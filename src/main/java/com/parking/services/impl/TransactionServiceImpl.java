@@ -177,4 +177,23 @@ public class TransactionServiceImpl implements TransactionService {
 
         return String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
     }
+
+
+	@Override
+	public void delete(Long id) {
+		if(id == null) {
+			log.error("Transaction ID is null");
+		}
+		
+		List<Payment> payments = paymentRepository.findAllByTransaction_id(id);
+		List<Deposit> deposits = depositRepository.findAllByTransactionId(id);
+		
+		if(!payments.isEmpty() || !deposits.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer la transaction car elle est déjà utilisé", 
+					ErrorCodes.TRANSACTION_ALREADY_IN_USE);
+		}
+		
+		transactionRepository.deleteById(id);
+		
+	}
 }

@@ -154,7 +154,11 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
 
     @Override
     public void delete(Long id) {
-
+    	if(id == null) {
+    		log.error("Parking Ticket ID is null");
+    	}
+    	
+    	parkingTicketRepository.deleteById(id);
     }
 
 	@Override

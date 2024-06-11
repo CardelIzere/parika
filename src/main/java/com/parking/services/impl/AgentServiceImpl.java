@@ -233,8 +233,18 @@ public class AgentServiceImpl implements AgentService {
 		if(id == null) {
 			log.error("Agent ID is null");
 		}
+		
+		Optional<Agent> agentOptional = agentRepository.findById(id);
+		
+		if(!agentOptional.isPresent()) {
+			log.error("Agent with ID " +id+ " not found");
+		}
+		
+		Agent agent = agentOptional.get();
+		User user = agent.getUser();
 
-		agentRepository.deleteById(id);
+		agentRepository.delete(agent);
+		userRepository.delete(user);
 		
 	}
 }

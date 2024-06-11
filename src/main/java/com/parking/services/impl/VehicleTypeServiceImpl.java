@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 
 import com.parking.exceptions.InvalidOperationException;
 import com.parking.model.ParkingPrice;
+import com.parking.model.Vehicle;
 import com.parking.repository.ParkingPriceRepository;
 import com.parking.repository.ParkingTicketRepository;
+import com.parking.repository.VehicleRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,11 +34,13 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
 	
 	private final VehicleTypeRepository vehicleTypeRepository;
 	private final ParkingPriceRepository parkingPriceRepository;
+	private final VehicleRepository vehicleRepository;
 	
 	@Autowired
-	public VehicleTypeServiceImpl(VehicleTypeRepository vehicleTypeRepository, ParkingPriceRepository parkingPriceRepository) {
+	public VehicleTypeServiceImpl(VehicleTypeRepository vehicleTypeRepository, ParkingPriceRepository parkingPriceRepository, VehicleRepository vehicleRepository) {
 		this.vehicleTypeRepository = vehicleTypeRepository;
 		this.parkingPriceRepository = parkingPriceRepository;
+		this.vehicleRepository = vehicleRepository;
 	}
 	
 	@Override
@@ -122,7 +127,9 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
 		}
 
 		List<ParkingPrice> parkingPrices = parkingPriceRepository.findAllByVehicleTypeId(id);
-		if(!parkingPrices.isEmpty()) {
+		List<Vehicle> vehicles = vehicleRepository.findAllByVehicleTypeId(id);
+		
+		if(!parkingPrices.isEmpty() || !vehicles.isEmpty()) {
 			throw new InvalidOperationException("Impossible de supprimer ce type de vehicule qui est deja utilise",
 					ErrorCodes.VEHICLETYPE_IN_USE);
 		}

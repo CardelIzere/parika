@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.parking.model.Transaction;
+import com.parking.model.VehiculeAccount;
+
 import org.springframework.data.repository.query.Param;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
@@ -16,7 +18,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query(value = "select t from Transaction t order by t.id desc")
     Page<Transaction> findAllTransaction(Pageable pageable);
 
-    List<Transaction> findByAccountId(Long accountId);
+    List<Transaction> findByAccountId(VehiculeAccount account);
 
     @Query("select sum(t.transactionAmount) from  Transaction t where t.account.id= :accountId")
     BigDecimal accountSold(@Param("accountId") Long accountId);

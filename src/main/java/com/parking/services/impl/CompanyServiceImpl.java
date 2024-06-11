@@ -22,6 +22,8 @@ import com.parking.exceptions.InvalidEntityException;
 import com.parking.repository.AdminRepository;
 import com.parking.repository.AgentRepository;
 import com.parking.repository.CompanyRepository;
+import com.parking.repository.ParkingPriceRepository;
+import com.parking.repository.ParkingSpaceRepository;
 import com.parking.services.CompanyService;
 import com.parking.validator.CompanyValidator;
 import com.parking.exceptions.EntityNotFoundException;
@@ -36,12 +38,16 @@ public class CompanyServiceImpl implements CompanyService {
 	private final CompanyRepository companyRepository;
 	private final AdminRepository adminRepository;
 	private final AgentRepository agentRepository;
+	private final ParkingSpaceRepository parkingSpaceRepository;
+	private final ParkingPriceRepository parkingPriceRepository;
 	
 	@Autowired
-	public CompanyServiceImpl(CompanyRepository companyRepository, AdminRepository adminRepository, AgentRepository agentRepository) {
+	public CompanyServiceImpl(CompanyRepository companyRepository, AdminRepository adminRepository, AgentRepository agentRepository, ParkingSpaceRepository parkingSpaceRepository, ParkingPriceRepository parkingPriceRepository) {
 		this.companyRepository = companyRepository;
 		this.adminRepository = adminRepository;
 		this.agentRepository = agentRepository;
+		this.parkingSpaceRepository = parkingSpaceRepository;
+		this.parkingPriceRepository = parkingPriceRepository;
 	}
 	
 	@Override
@@ -141,11 +147,17 @@ public class CompanyServiceImpl implements CompanyService {
 		if(id == null) {
 			log.error("Company ID is null");
 		}
+		
 		List<Admin> admin = adminRepository.findAllByCompanyId(id);
-		if(!admin.isEmpty()) {
+		List<Agent> agent = agentRepository.findAllByCompanyId(id);
+		List<ParkingSpace> parkingSpace = parkingSpaceRepository.findCompanyParkingSpaces(id);
+		List<ParkingPrice> parkingPrice = parkingPriceRepository.findAllByCompanyId(id);
+		
+		if(!admin.isEmpty() || !agent.isEmpty() || !parkingPrice.isEmpty() || !parkingSpace.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer cette entreprise qui est deja utilisé", 
 					ErrorCodes.COMPANY_ALREADY_IN_USE);
 		}
+		
 		companyRepository.deleteById(id);
 		
 	}

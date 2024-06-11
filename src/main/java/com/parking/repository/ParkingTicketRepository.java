@@ -18,5 +18,7 @@ public interface ParkingTicketRepository extends JpaRepository<ParkingTicket, Lo
 
     @Query(value = "select pt from ParkingTicket pt where pt.id = :id AND pt.parkingTicketStatusEnum = 'CLOSED'")
     Optional<ParkingTicket> findVehicleCloseTicketById(@Param("id") Long id);
+    
+    ParkingTicket findParkingTicketById(Long id);
 
 }
