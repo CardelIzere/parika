@@ -16,6 +16,8 @@ public interface ParkingPriceService {
     List<ParkingPriceDto> findAll();
 
     Page<ParkingPriceDto> findByNameLike(Long idCompany, String search, Pageable pageable);
+    
+    List<ParkingPriceDto> findByCompanyParkingPrice(Long idCompany);
 
     void delete(Long id);
 }

@@ -31,4 +31,7 @@ public interface ParkingPriceRepository extends JpaRepository<ParkingPrice, Long
     List<ParkingPrice> findAllByVehicleTypeId(Long vehicleType_id);
     
     List<ParkingPrice> findAllByCompanyId(Long company_id);
+    
+    @Query(value = "select p from ParkingPrice p where p.company.id=?1 order by p.id desc ")
+    List<ParkingPrice> findByCompanyParkingPrices(Long idCompany);
 }

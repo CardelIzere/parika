@@ -51,4 +51,10 @@ public class ParkingPriceController implements ParkingPriceApi {
 
     }
 
+	@Override
+	public List<ParkingPriceDto> findByCompanyParkingPrices(Long idCompany) {
+		
+		return parkingPriceService.findByCompanyParkingPrice(idCompany);
+	}
+
 }

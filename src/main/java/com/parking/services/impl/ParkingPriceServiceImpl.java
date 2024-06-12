@@ -118,4 +118,12 @@ public class ParkingPriceServiceImpl implements ParkingPriceService {
         parkingPriceRepository.deleteById(id);
     }
 
+	@Override
+	public List<ParkingPriceDto> findByCompanyParkingPrice(Long idCompany) {
+		
+		return parkingPriceRepository.findByCompanyParkingPrices(idCompany).stream()
+				.map(ParkingPriceDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
 }

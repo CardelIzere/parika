@@ -51,6 +51,13 @@ public interface ParkingPriceApi {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     );
+    
+    @Operation(summary = "Récupérer la liste de prix de parking d'une entreprise", description = "Cette methode permet de chercher et renvoyer la liste des prix de parking qui existent" + "dans la BDD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "La liste des prix de parking d'une entreprise")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/parking_prices/company-with-no-pagination-and-search/{idCompany}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ParkingPriceDto> findByCompanyParkingPrices(@PathVariable("idCompany") Long idCompany);
 
     @Operation(summary = "Supprimer un prix de parking par son ID", description = "Cette methode permet de supprimer un prix de parking par ID")
     @ApiResponses(value = {
