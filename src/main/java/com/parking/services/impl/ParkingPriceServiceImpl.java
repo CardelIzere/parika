@@ -45,7 +45,7 @@ public class ParkingPriceServiceImpl implements ParkingPriceService {
 
         if (dto.getId() ==null || dto.getId().compareTo(0L) == 0){
 
-            if(parkingPriceAlreadyExists(dto.getCompanyDto().getId(),dto.getVehicleTypeDto().getId())) {
+            if(parkingPriceAlreadyExists(dto.getCompany().getId(),dto.getVehicleType().getId())) {
                 throw new InvalidEntityException("Le typeaa de vehicule renseigne a deja un prix", ErrorCodes.PARKINGPRICE_ALREADY_EXISTS,
                         Collections.singletonList("Le typeaa de vehicule renseigne a deja un prix"));
             }
@@ -55,10 +55,10 @@ public class ParkingPriceServiceImpl implements ParkingPriceService {
             );
         }
 
-        ParkingPrice existingParkingPrice=parkingPriceRepository.findParkingPriceById(dto.getId(),dto.getCompanyDto().getId());
-        if (existingParkingPrice !=null && !existingParkingPrice.getVehicleType().getId().equals(dto.getVehicleTypeDto().getId())){
+        ParkingPrice existingParkingPrice=parkingPriceRepository.findParkingPriceById(dto.getId(),dto.getCompany().getId());
+        if (existingParkingPrice !=null && !existingParkingPrice.getVehicleType().getId().equals(dto.getVehicleType().getId())){
 
-            if(parkingPriceAlreadyExists(dto.getCompanyDto().getId(),dto.getVehicleTypeDto().getId())) {
+            if(parkingPriceAlreadyExists(dto.getCompany().getId(),dto.getVehicleType().getId())) {
                 throw new InvalidEntityException("Le type de vehicule renseigne a deja un prix", ErrorCodes.PARKINGPRICE_ALREADY_EXISTS,
                         Collections.singletonList("Le type de vehicule renseigne a deja un prix"));
             }

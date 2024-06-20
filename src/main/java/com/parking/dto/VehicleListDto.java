@@ -13,7 +13,7 @@ public class VehicleListDto {
 	
 	private Long idVehicle;
 	private String registrationNumber;
-	private VehicleTypeDto vehicleTypeDto;
+	private VehicleTypeDto vehicleType;
 	private String accountNumber;
 	private BigDecimal solde;
 	private byte[] qrCodeImage;
@@ -26,7 +26,7 @@ public class VehicleListDto {
 		return VehicleListDto.builder()
 				.idVehicle(vehicleProjection.getIdVehicle())
 				.registrationNumber(vehicleProjection.getRegistrationNumber())
-				.vehicleTypeDto(VehicleTypeDto.fromEntity(vehicleProjection.getVehicleTypeDto()))
+				.vehicleType(VehicleTypeDto.fromEntity(vehicleProjection.getVehicleTypeDto()))
 				.accountNumber(vehicleProjection.getAccountNumber())
 				.solde(vehicleProjection.getSolde())
 				.qrCodeImage(vehicleProjection.getQrCodeImage())

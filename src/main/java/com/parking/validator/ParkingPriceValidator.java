@@ -17,11 +17,11 @@ public class ParkingPriceValidator {
             return errors;
         }
 
-        if(parkingPriceDto.getCompanyDto() == null || parkingPriceDto.getCompanyDto().getId() == null ||  parkingPriceDto.getCompanyDto().getId().compareTo(0L) == 0) {
+        if(parkingPriceDto.getCompany() == null || parkingPriceDto.getCompany().getId() == null ||  parkingPriceDto.getCompany().getId().compareTo(0L) == 0) {
             errors.add("Entreprise ne doit pas etre null");
         }
 
-        if(parkingPriceDto.getVehicleTypeDto() == null || parkingPriceDto.getVehicleTypeDto().getId() == null ||  parkingPriceDto.getVehicleTypeDto().getId().compareTo(0L) == 0) {
+        if(parkingPriceDto.getVehicleType() == null || parkingPriceDto.getVehicleType().getId() == null ||  parkingPriceDto.getVehicleType().getId().compareTo(0L) == 0) {
             errors.add("Veuiller selectionner un type de vehicule");
         }
 

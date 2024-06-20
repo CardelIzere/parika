@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 public class ParkingPriceDto {
 
     private Long id;
-    private CompanyDto companyDto;
-    private VehicleTypeDto vehicleTypeDto;
+    private CompanyDto company;
+    private VehicleTypeDto vehicleType;
     private BigDecimal price;
 
     public static ParkingPriceDto fromEntity(ParkingPrice parkingPrice) {
@@ -23,8 +23,8 @@ public class ParkingPriceDto {
 
         return ParkingPriceDto.builder()
                 .id(parkingPrice.getId())
-                .companyDto(CompanyDto.fromEntity(parkingPrice.getCompany()))
-                .vehicleTypeDto(VehicleTypeDto.fromEntity(parkingPrice.getVehicleType()))
+                .company(CompanyDto.fromEntity(parkingPrice.getCompany()))
+                .vehicleType(VehicleTypeDto.fromEntity(parkingPrice.getVehicleType()))
                 .price(parkingPrice.getPrice())
                 .build();
     }
@@ -36,8 +36,8 @@ public class ParkingPriceDto {
 
         ParkingPrice parkingPrice = new ParkingPrice();
         parkingPrice.setId(parkingPriceDto.getId());
-        parkingPrice.setCompany(CompanyDto.toEntity(parkingPriceDto.getCompanyDto()));
-        parkingPrice.setVehicleType(VehicleTypeDto.toEntity(parkingPriceDto.getVehicleTypeDto()));
+        parkingPrice.setCompany(CompanyDto.toEntity(parkingPriceDto.getCompany()));
+        parkingPrice.setVehicleType(VehicleTypeDto.toEntity(parkingPriceDto.getVehicleType()));
         parkingPrice.setPrice(parkingPriceDto.getPrice());
 
         return parkingPrice;
