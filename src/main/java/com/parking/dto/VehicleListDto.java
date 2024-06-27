@@ -17,6 +17,7 @@ public class VehicleListDto {
 	private String accountNumber;
 	private BigDecimal solde;
 	private byte[] qrCodeImage;
+	private BigDecimal price;
 	
 	public static VehicleListDto fromEntity(VehicleProjection vehicleProjection) {
 		if(vehicleProjection == null) {
@@ -30,6 +31,7 @@ public class VehicleListDto {
 				.accountNumber(vehicleProjection.getAccountNumber())
 				.solde(vehicleProjection.getSolde())
 				.qrCodeImage(vehicleProjection.getQrCodeImage())
+				.price(vehicleProjection.getPrice())
 				.build();
 	}
 	

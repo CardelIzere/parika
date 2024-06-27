@@ -12,5 +12,6 @@ public interface VehicleProjection {
 	String getAccountNumber();
 	BigDecimal getSolde();
 	byte[] getQrCodeImage();
+	BigDecimal getPrice();
 	
 }
