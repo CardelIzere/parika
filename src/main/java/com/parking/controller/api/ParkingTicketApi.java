@@ -50,6 +50,18 @@ public interface ParkingTicketApi {
 //            @RequestParam(value = "size", defaultValue = "10") int size
 //    );
     
+    @Operation(summary = "Récupérer la liste de tous les tickets de parking fermé", description = "Cette methode permet de chercher et renvoyer la liste de tous les tickets de parking fermé qui existent" + "dans la BDD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "La liste des tickets de parking fermé")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/parking_tickets/parkingSpace/{parkingSpaceId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<ParkingTicketDto> findActiveParkingTicketByParkingSpaceId(
+            @PathVariable("parkingSpaceId") Long parkingSpaceId,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    );
+    
     @Operation(summary = "Récupérer la liste de tous les tickets de parking", description = "Cette methode permet de chercher et renvoyer la liste des tickets de parking qui existent" + "dans la BDD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "La liste des tickets de parking / Une liste vide")

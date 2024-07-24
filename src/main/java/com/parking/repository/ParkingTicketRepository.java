@@ -1,6 +1,9 @@
 package com.parking.repository;
 import com.parking.model.Company;
 import com.parking.model.Vehicle;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.parking.model.ParkingTicket;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +23,22 @@ public interface ParkingTicketRepository extends JpaRepository<ParkingTicket, Lo
     Optional<ParkingTicket> findVehicleCloseTicketById(@Param("id") Long id);
     
     ParkingTicket findParkingTicketById(Long id);
+    
+    @Query("SELECT pt FROM ParkingTicket pt " +
+    		"WHERE pt.parkingSpace.id = ?1 AND pt.parkingTicketStatusEnum = 'ACTIVE' " +
+    		"AND UPPER(pt.parkingTicketNumber) like CONCAT('%',UPPER(?2),'%') " +
+    		"OR UPPER(pt.parkingSpace.name) like CONCAT('%',UPPER(?2),'%') " +
+    		"OR UPPER(pt.agent.user.userFullName) like CONCAT('%',UPPER(?2),'%') " +
+    		"OR UPPER(pt.company.companyName) like CONCAT('%',UPPER(?2),'%') " +
+    		"OR UPPER(pt.company.companyPhoneNumber) like CONCAT('%',UPPER(?2),'%') " +
+    		"OR UPPER(pt.vehicle.registrationNumber) like CONCAT('%',UPPER(?2),'%') " +
+    		"OR UPPER(pt.vehicle.vehicleType.vehiculeTypeName) like CONCAT('%',UPPER(?2),'%') " +
+    		"ORDER BY pt.id DESC")
+    Page<ParkingTicket> findActiveParkingTicketByParkingSpaceId(Long parkingSpaceId, String search, Pageable pageable);
+    
+    @Query("SELECT pt FROM ParkingTicket pt " +
+    		"WHERE pt.parkingSpace.id = ?1 AND pt.parkingTicketStatusEnum = 'ACTIVE' " +
+    		"ORDER BY pt.id DESC")
+    Page<ParkingTicket> findActiveParkingTicketByParkingSpaceIdWithNoSearch(Long parkingSpaceId, Pageable pageable);
 
 }

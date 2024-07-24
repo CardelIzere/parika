@@ -168,4 +168,16 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
 				.map(ParkingTicketDto::fromEntity)
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public Page<ParkingTicketDto> findActiveParkingTIcketByParkingSpaceId(Long parkingSpaceId, String search,
+			Pageable pageable) {
+		Page<ParkingTicket> parkingTickets;
+		if (search != null) {
+			parkingTickets = parkingTicketRepository.findActiveParkingTicketByParkingSpaceId(parkingSpaceId, search, pageable);
+		} else {
+			parkingTickets = parkingTicketRepository.findActiveParkingTicketByParkingSpaceIdWithNoSearch(parkingSpaceId, pageable);
+		}
+		return parkingTickets.map(ParkingTicketDto::fromEntity);
+	}
 }
