@@ -38,11 +38,6 @@ public class ParkingTicketController implements ParkingTicketApi {
         return parkingTicketService.findById(id);
     }
 
-//    @Override
-//    public Page<ParkingTicketDto> findAllParkingTicket(int page, int size) {
-//        return null;
-//    }
-
     @Override
     public void delete(Long id) {
 
@@ -60,5 +55,12 @@ public class ParkingTicketController implements ParkingTicketApi {
 		
 		Pageable pageable = PageRequest.of(page, size);
 		return parkingTicketService.findActiveParkingTIcketByParkingSpaceId(parkingSpaceId, search, pageable);
+	}
+
+	@Override
+	public ParkingTicketDto getActiveParkingTicketByParkingSpaceAndRegistrationNumber(Long parkingSpaceId,
+			String registrationNumber) {
+		
+		return parkingTicketService.getActiveParkingTicketByParkingSpaceAndRegistrationNumber(parkingSpaceId, registrationNumber);
 	}
 }

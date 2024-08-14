@@ -180,4 +180,13 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
 		}
 		return parkingTickets.map(ParkingTicketDto::fromEntity);
 	}
+
+	@Override
+	public ParkingTicketDto getActiveParkingTicketByParkingSpaceAndRegistrationNumber(Long parkingSpaceId,
+			String registrationNumber) {
+		
+		return parkingTicketRepository.findActiveParkingTicketByParkingSpaceIdAndRegistrationNumber(parkingSpaceId, registrationNumber)
+				.map(ParkingTicketDto::fromEntity)
+				.orElseThrow(()-> new EntityNotFoundException("Aucun ticket de parking n'a été trouvé dans la BDD avec le numero de plaque " +registrationNumber));
+	}
 }

@@ -13,25 +13,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentDto {
+public class PaymentListDto {
 
     private Long id;
     private TransactionDto transaction;
     private ParkingTicketDto parkingTicket;
 
-    public static PaymentDto fromEntity(Payment payment) {
+    public static PaymentListDto fromEntity(Payment payment) {
         if(payment == null) {
             return null;
         }
 
-        return PaymentDto.builder()
+        return PaymentListDto.builder()
                 .id(payment.getId())
                 .transaction(TransactionDto.fromEntity(payment.getTransaction()))
                 .parkingTicket(ParkingTicketDto.fromEntity(payment.getParkingTicket()))
                 .build();
     }
 
-    public static Payment toEntity(PaymentDto paymentDto) {
+    public static Payment toEntity(PaymentListDto paymentDto) {
         if(paymentDto == null) {
             return null;
         }

@@ -40,5 +40,10 @@ public interface ParkingTicketRepository extends JpaRepository<ParkingTicket, Lo
     		"WHERE pt.parkingSpace.id = ?1 AND pt.parkingTicketStatusEnum = 'ACTIVE' " +
     		"ORDER BY pt.id DESC")
     Page<ParkingTicket> findActiveParkingTicketByParkingSpaceIdWithNoSearch(Long parkingSpaceId, Pageable pageable);
+    
+    @Query("SELECT pt FROM ParkingTicket pt " +
+    		"WHERE pt.parkingSpace.id = :parkingSpaceId AND pt.vehicle.registrationNumber = :registrationNumber " +
+    		"AND pt.parkingTicketStatusEnum = 'ACTIVE' ")
+    Optional<ParkingTicket> findActiveParkingTicketByParkingSpaceIdAndRegistrationNumber(Long parkingSpaceId, String registrationNumber);
 
 }

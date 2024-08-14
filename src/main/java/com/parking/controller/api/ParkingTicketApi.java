@@ -62,6 +62,14 @@ public interface ParkingTicketApi {
             @RequestParam(value = "size", defaultValue = "10") int size
     );
     
+    @Operation(summary = "Trouver un ticket de parking par parkingSpace ID et registrationNumber", description = "Cette methode permet de chercher un ticket de parking par parkingSPaceID et registrationNumber")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Un ticket de parking a ete trouve dans la BDD"),
+            @ApiResponse(responseCode = "404", description = "Aucun ticket de parking n'existe dans la BDD")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/parking_tickets/parkingSpace/{parkingSpaceId}/{registrationNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ParkingTicketDto getActiveParkingTicketByParkingSpaceAndRegistrationNumber(@PathVariable("parkingSpaceId") Long parkingSpaceId, @PathVariable("registrationNumber") String registrationNumber);
+    
     @Operation(summary = "Récupérer la liste de tous les tickets de parking", description = "Cette methode permet de chercher et renvoyer la liste des tickets de parking qui existent" + "dans la BDD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "La liste des tickets de parking / Une liste vide")

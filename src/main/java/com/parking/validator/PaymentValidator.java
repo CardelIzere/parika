@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.parking.dto.PaymentDto;
+import com.parking.dto.PaymentListDto;
 
 public class PaymentValidator {
 
-    public static List<String> validate(PaymentDto paymentDto){
+    public static List<String> validate(PaymentListDto paymentDto){
         List<String> errors = new ArrayList<>();
 
         if(paymentDto == null) {

@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public PaymentDto savePayment(PaymentDto dto) {
+    public PaymentListDto savePayment(PaymentListDto dto) {
 
         List<String> errors = PaymentValidator.validate(dto);
         if(!errors.isEmpty()) {
@@ -91,9 +91,9 @@ public class TransactionServiceImpl implements TransactionService {
         existingData.setParkingTicketPaymentStatusEnum(ParkingTicketPaymentStatusEnum.PAID);
         parkingTicketRepository.save(existingData);
 
-        PaymentDto paymentDto = fromTransaction(savedTransaction,dto.getParkingTicket());
-        return PaymentDto.fromEntity(
-                   paymentRepository.save(PaymentDto.toEntity(paymentDto))
+        PaymentListDto paymentDto = fromTransaction(savedTransaction,dto.getParkingTicket());
+        return PaymentListDto.fromEntity(
+                   paymentRepository.save(PaymentListDto.toEntity(paymentDto))
         );
     }
 
@@ -123,9 +123,9 @@ public class TransactionServiceImpl implements TransactionService {
         );
     }
 
-    private PaymentDto fromTransaction(TransactionDto dto,ParkingTicketDto parkingTicketDto) {
+    private PaymentListDto fromTransaction(TransactionDto dto,ParkingTicketDto parkingTicketDto) {
 
-        return PaymentDto.builder()
+        return PaymentListDto.builder()
                 .transaction(dto)
                 .parkingTicket(parkingTicketDto)
                 .build();
