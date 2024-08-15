@@ -1,9 +1,6 @@
 package com.parking.dto;
 
-import com.parking.model.ParkingTicket;
 import com.parking.model.Payment;
-import com.parking.model.Transaction;
-import com.parking.model.VehiculeAccount;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,28 +26,20 @@ public class PaymentSaveDto {
     	
     	return PaymentSaveDto.builder()
     			.id(payment.getId())
-    			.account(VehiculeAccountDto.fromEntity(payment.getVehiculeAccount()))
+    			.account(VehiculeAccountDto.fromEntity(payment.getTransaction().getAccount()))
     			.parkingTicket(ParkingTicketDto.fromEntity(payment.getParkingTicket()))
     			.build();
     }
     
-    public static Payment toEntity(PaymentSaveDto paymentSaveDto) {
-    	if(paymentSaveDto == null) {
+    public static Payment toEntity(PaymentSaveDto paymentSaveDto, TransactionDto transactionDto, ParkingTicketDto parkingTicketDto) {
+    	if(paymentSaveDto == null || transactionDto == null || parkingTicketDto == null) {
     		return null;
     	}
     	
     	Payment payment = new Payment();
     	payment.setId(paymentSaveDto.getId());
-    	
-    	// Set the transaction
-        Transaction transaction = new Transaction();
-        VehiculeAccount account = VehiculeAccountDto.toEntity(paymentSaveDto.getAccount());
-        transaction.setAccount(account);
-        payment.setTransaction(transaction);
-
-        // Set the parking ticket
-        ParkingTicket parkingTicket = ParkingTicketDto.toEntity(paymentSaveDto.getParkingTicket());
-        payment.setParkingTicket(parkingTicket);
+    	payment.setTransaction(TransactionDto.toEntity(transactionDto));
+    	payment.setParkingTicket(ParkingTicketDto.toEntity(parkingTicketDto));
 
         return payment;
     }

@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.parking.dto.PaymentListDto;
+import com.parking.dto.PaymentSaveDto;
 
 public class PaymentValidator {
 
-    public static List<String> validate(PaymentListDto paymentDto){
+    public static List<String> validate(PaymentSaveDto paymentDto){
         List<String> errors = new ArrayList<>();
 
         if(paymentDto == null) {
@@ -22,14 +23,16 @@ public class PaymentValidator {
         if(paymentDto.getParkingTicket() == null || paymentDto.getParkingTicket().getId() == null || paymentDto.getParkingTicket().getId().compareTo(0L) == 0) {
             errors.add("Veuiller selectionner un ticket");
         }
-        if(paymentDto.getTransaction().getAccount() == null || paymentDto.getTransaction().getAccount().getId() == null || paymentDto.getTransaction().getAccount().getId().compareTo(0L) == 0) {
+        if(paymentDto.getAccount() == null || paymentDto.getAccount().getId() == null || paymentDto.getAccount().getId().compareTo(0L) == 0) {
             errors.add("Veuillez selectionner un compte");
         }
-
-        if(paymentDto.getTransaction().getTransactionAmount() == null) {
+        
+        assert paymentDto.getParkingTicket()!=null;
+        
+        if(paymentDto.getParkingTicket().getFareAmount() == null) {
             errors.add("Veuiller renseigner le montant de transaction");
         }
-        if(paymentDto.getTransaction().getTransactionAmount() == null || paymentDto.getTransaction().getTransactionAmount().compareTo(BigDecimal.valueOf(0)) == 0) {
+        if(paymentDto.getParkingTicket().getFareAmount() == null || paymentDto.getParkingTicket().getFareAmount().compareTo(BigDecimal.valueOf(0)) == 0) {
             errors.add("Le montant de transaction doit etre superieur à zero");
         }
 

@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public PaymentListDto savePayment(PaymentListDto dto) {
+    public PaymentSaveDto savePayment(PaymentSaveDto dto) {
 
         List<String> errors = PaymentValidator.validate(dto);
         if(!errors.isEmpty()) {
@@ -61,28 +61,31 @@ public class TransactionServiceImpl implements TransactionService {
             throw new InvalidEntityException("Vehicule est deja en parking.", ErrorCodes.PARKINGTICKET_VEHICLE_ALREADY_IN_PARKING);
         }
 
-        if(!isAccountExist(dto.getTransaction().getAccount().getId())) {
-            throw new EntityNotFoundException("Aucun compte avec l'ID = " +dto.getTransaction().getAccount().getId()+ " n' a ete trouve dans la BDD",
+        if(!isAccountExist(dto.getAccount().getId())) {
+            throw new EntityNotFoundException("Aucun compte avec l'ID = " +dto.getAccount().getId()+ " n' a ete trouve dans la BDD",
                     ErrorCodes.ACCOUNT_NOT_FOUND);
         }
-        BigDecimal accountSoldValue = transactionRepository.accountSold(dto.getTransaction().getAccount().getId());
+        BigDecimal accountSoldValue = transactionRepository.accountSold(dto.getAccount().getId());
         BigDecimal sold= BigDecimal.valueOf(0);
         sold = Objects.requireNonNullElseGet(accountSoldValue, () -> BigDecimal.valueOf(0));
-        if (sold.compareTo(dto.getTransaction().getTransactionAmount())< 0){
+        if (sold.compareTo(dto.getParkingTicket().getFareAmount())< 0){
 
             throw new InvalidEntityException("Solde insuffisant.", ErrorCodes.ACCOUNT_SOLD_NOT_ENOUGHT);
         }
-
-        dto.getTransaction().setTransactionCode(transactionCodePrefix()+generateTransactionCode(10));
-        dto.getTransaction().setTransactionDate(LocalDate.now());
-        dto.getTransaction().setTransactionType(TransactionTypeEnum.PAYMENT);
-        dto.getTransaction().setTransactionAmount(
+        
+        //Save transaction
+        Transaction transaction = new Transaction();
+        
+        transaction.setTransactionCode(transactionCodePrefix()+generateTransactionCode(10));
+        transaction.setTransactionDate(LocalDate.now());
+        transaction.setTransactionType(TransactionTypeEnum.PAYMENT);
+        transaction.setTransactionAmount(
                 BigDecimal.valueOf(
-                        Math.abs(dto.getTransaction().getTransactionAmount().doubleValue())* -1
+                        Math.abs(dto.getParkingTicket().getFareAmount().doubleValue())* -1
                 )
         );
         TransactionDto savedTransaction = TransactionDto.fromEntity(
-                transactionRepository.save(TransactionDto.toEntity(dto.getTransaction()))
+                transactionRepository.save(transaction)
         );
 
         //update state
@@ -90,10 +93,15 @@ public class TransactionServiceImpl implements TransactionService {
         ParkingTicket existingData = existingParkingTicket.get();
         existingData.setParkingTicketPaymentStatusEnum(ParkingTicketPaymentStatusEnum.PAID);
         parkingTicketRepository.save(existingData);
-
-        PaymentListDto paymentDto = fromTransaction(savedTransaction,dto.getParkingTicket());
-        return PaymentListDto.fromEntity(
-                   paymentRepository.save(PaymentListDto.toEntity(paymentDto))
+        
+        //Save payment
+        Payment payment = new Payment();
+        payment.setTransaction(TransactionDto.toEntity(savedTransaction));
+        payment.setParkingTicket(ParkingTicketDto.toEntity(dto.getParkingTicket()));
+        
+        //PaymentListDto paymentDto = fromTransaction(savedTransaction,dto.getParkingTicket());
+        return PaymentSaveDto.fromEntity(
+                   paymentRepository.save(payment)
         );
     }
 
@@ -179,21 +187,21 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-	@Override
-	public void delete(Long id) {
-		if(id == null) {
-			log.error("Transaction ID is null");
-		}
-		
-		List<Payment> payments = paymentRepository.findAllByTransaction_id(id);
-		List<Deposit> deposits = depositRepository.findAllByTransactionId(id);
-		
-		if(!payments.isEmpty() || !deposits.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer la transaction car elle est déjà utilisé", 
-					ErrorCodes.TRANSACTION_ALREADY_IN_USE);
-		}
-		
-		transactionRepository.deleteById(id);
-		
-	}
+//	@Override
+//	public void delete(Long id) {
+//		if(id == null) {
+//			log.error("Transaction ID is null");
+//		}
+//		
+//		List<Payment> payments = paymentRepository.findAllByTransaction_id(id);
+//		List<Deposit> deposits = depositRepository.findAllByTransactionId(id);
+//		
+//		if(!payments.isEmpty() || !deposits.isEmpty()) {
+//			throw new InvalidEntityException("Impossible de supprimer la transaction car elle est déjà utilisé", 
+//					ErrorCodes.TRANSACTION_ALREADY_IN_USE);
+//		}
+//		
+//		transactionRepository.deleteById(id);
+//		
+//	}
 }

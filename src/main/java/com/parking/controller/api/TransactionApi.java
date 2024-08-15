@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.parking.dto.DepositDto;
 import com.parking.dto.PaymentListDto;
+import com.parking.dto.PaymentSaveDto;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +31,7 @@ public interface TransactionApi {
             @ApiResponse(responseCode = "400", description = "L'objet paiement n'est pas valide")
     })
     @PostMapping(value = Constants.APP_ROOT + "/transactions/payments/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    PaymentListDto savePayment(@RequestBody PaymentListDto dto);
+    PaymentSaveDto savePayment(@RequestBody PaymentSaveDto dto);
 
     @Operation(summary = "Créer un depot", description = "Cette methode permet d'enregistrer un depot")
     @ApiResponses(value = {

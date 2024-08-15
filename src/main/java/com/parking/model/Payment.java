@@ -29,9 +29,5 @@ public class Payment extends AbstractEntity {
     @OneToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "parking_ticket_id",nullable = false)
     private ParkingTicket parkingTicket;
-    
-    public VehiculeAccount getVehiculeAccount() {
-        return this.transaction.getAccount();
-    }
 
 }

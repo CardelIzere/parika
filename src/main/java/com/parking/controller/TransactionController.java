@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.parking.dto.DepositDto;
 import com.parking.dto.PaymentListDto;
+import com.parking.dto.PaymentSaveDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +27,7 @@ public class TransactionController implements TransactionApi {
     }
 
     @Override
-    public PaymentListDto savePayment(PaymentListDto dto) {
+    public PaymentSaveDto savePayment(PaymentSaveDto dto) {
         return transactionService.savePayment(dto);
     }
 
